@@ -30,7 +30,6 @@ function remote_countdown_request(string $method, ?array $body = null): ?array
     ]);
     $response = curl_exec($curl);
     $status = (int)curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-    curl_close($curl);
     if (!is_string($response) || $status < 200 || $status >= 300) return null;
     $data = json_decode($response, true);
     if ($method === 'GET') return is_array($data) && isset($data[0]) ? $data[0] : ['target' => CHRISTMAS_TARGET];
