@@ -6,13 +6,14 @@ const COUNTDOWN_SETTINGS_FILE = __DIR__ . '/data/countdown.json';
 
 function remote_countdown_storage_enabled(): bool
 {
-    return (bool)(getenv('SUPABASE_URL') && getenv('SUPABASE_SERVICE_ROLE_KEY'));
+        return (bool)(getenv('SUPABASE_URL') && (getenv('SUPABASE_SECRET_KEY') || getenv('SUPABASE_SERVICE_ROLE_KEY')));
 }
 
 function remote_countdown_request(string $method, ?array $body = null): ?array
 {
     $baseUrl = rtrim((string)getenv('SUPABASE_URL'), '/');
-    $key = (string)getenv('SUPABASE_SERVICE_ROLE_KEY');
+    $key = (string)(getenv('SUPABASE_SECRET_KEY') ?: getenv('SUPABASE_SERVICE_ROLE_KEY'));
+    if (!function_exists('curl_init')) return null;
     $curl = curl_init($baseUrl . '/rest/v1/countdown_settings');
     $headers = ['apikey: ' . $key, 'Authorization: Bearer ' . $key, 'Content-Type: application/json'];
     if ($method === 'GET') {
