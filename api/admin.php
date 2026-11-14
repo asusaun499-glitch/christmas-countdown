@@ -3,7 +3,7 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/settings.php';
 date_default_timezone_set('Asia/Bangkok');
 
-$password = getenv('COUNTDOWN_ADMIN_PASSWORD') ?: '';
+$password = getenv('AUNPHOTI174452') ?: '';
 $error = '';
 $notice = '';
 $cookieName = 'maria_countdown_admin';
